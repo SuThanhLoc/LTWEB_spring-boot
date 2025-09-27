@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/main}">
+<body>
+	<section layout:fragment="content">
+
+		<h1 class="h4 mb-3"
+			th:text="${category.cateId} != null ? 'Cập nhật Category' : 'Tạo mới Category'">Form</h1>
+
+		<form th:action="@{${category.cateId} != null ? '/admin/categories/edit' : '/admin/categories/add'}" th:object="${category}"
+			method="post" class="row g-3" enctype="multipart/form-data">
+			<div th:if="${#fields.hasErrors()}">
+				<div class="alert alert-danger">Vui lòng kiểm tra lại các
+					trường bắt buộc.</div>	
+			</div>
+			<input type="hidden" th:if="${category.cateId}" th:field="*{cateId}" />
+
+			<div class="col-md-6">
+				<label class="form-label">Tên *</label> <input class="form-control"
+					th:field="*{cateName}" required maxlength="255" />
+				<div class="text-danger" th:if="${#fields.hasErrors('cateName')}"
+					th:errors="*{cateName}">Error</div>
+			</div>
+
+			<div class="col-md-6">
+				<label class="form-label">Icons (tùy chọn)</label>
+				<input class="form-control" type="file" name="imageFile" accept="image/*" />
+				<div class="form-text">Chọn file ảnh để upload hoặc để trống nếu không thay đổi.</div>
+				<div class="text-danger" th:if="${#fields.hasErrors('icons')}" th:errors="*{icons}">Error</div>
+			</div>
+
+			<div class="col-12 d-flex gap-2">
+				<button class="btn btn-primary" type="submit">Lưu</button>
+				<a class="btn btn-outline-secondary" th:href="@{/admin/categories}">Hủy</a>
+			</div>
+		</form>
+
+	</section>
+</body>
+</html>
+	
